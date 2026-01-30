@@ -3,94 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Alpha Leak Analyzer | The Ultimate Portfolio Diagnostic</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --bg: #0d1117; --card: #161b22; --accent: #58a6ff; 
-            --text: #c9d1d9; --border: #30363d; --green: #3fb950; 
-            --red: #f85149; --gold: #ffd700; --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        }
-
-        body { 
-            background: var(--bg); color: var(--text); 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            margin: 0; padding: 10px; line-height: 1.5;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; }
-        header { text-align: center; padding: 30px 0; }
-        header h1 { color: var(--accent); margin: 0; font-size: 2rem; letter-spacing: -1px; text-transform: uppercase; }
-        header p { color: #8b949e; font-size: 0.9rem; margin-top: 5px; }
-
-        .main-grid { display: flex; flex-direction: column; gap: 16px; }
-        @media (min-width: 992px) { 
-            .main-grid { flex-direction: row; align-items: flex-start; gap: 24px; } 
-            body { padding: 30px; }
-        }
-
-        .glass { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); }
-        .sidebar { flex: 1; width: 100%; box-sizing: border-box; }
-        .display { flex: 2; width: 100%; box-sizing: border-box; }
-
-        h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; color: var(--accent); }
-        label { font-size: 0.85rem; color: #8b949e; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        input[type="number"] { 
-            width: 100%; padding: 12px; background: #010409; border: 1px solid var(--border); 
-            color: white; border-radius: 8px; margin: 8px 0; font-size: 1.1rem; box-sizing: border-box; font-weight: bold;
-        }
-
-        .unit-hint { font-size: 0.85rem; color: var(--accent); font-weight: 700; margin-bottom: 15px; display: block; }
-        input[type="range"] { width: 100%; margin: 15px 0; cursor: pointer; accent-color: var(--accent); }
-
-        .chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
-        .chip { 
-            padding: 8px 14px; border: 1px solid var(--border); border-radius: 20px; 
-            cursor: pointer; font-size: 0.75rem; font-weight: 600; color: #8b949e; transition: 0.2s;
-        }
-        .chip.active { background: rgba(88, 166, 255, 0.15); color: var(--accent); border-color: var(--accent); }
-
-        .stats-strip { display: flex; gap: 12px; margin-bottom: 20px; }
-        .stat-box { 
-            flex: 1; background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px; 
-            border: 1px solid var(--border); text-align: center; position: relative;
-        }
-        .stat-label { font-size: 0.7rem; color: #8b949e; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
-        .stat-val { font-size: 1.3rem; font-weight: 900; display: block; margin-top: 5px; }
-
-        .grade-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 0.7rem; 
-            font-weight: 800; text-transform: uppercase; margin-top: 10px;
-        }
-
-        /* Fixed Toggle Styling */
-        .toggle-container {
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 12px;
-            border: 1px solid var(--border); margin-top: 20px; cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .toggle-container.active {
-            background: rgba(255, 215, 0, 0.08);
-            border-color: var(--gold);
-        }
-        #adjInflation {
-            width: 20px; height: 20px; cursor: pointer;
-            accent-color: var(--gold);
-            pointer-events: none; /* Let the container handle the click */
-        }
-
-        /* Explainer */
-        .explainer { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; }
-        .explainer h4 { color: var(--gold); margin-bottom: 10px; font-size: 1rem; }
-        .explainer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .info-bit { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border: 1px solid var(--border); }
-        .info-bit h5 { margin: 0 0 8px 0; color: var(--accent); font-size: 0.85rem; }
-        .info-bit p { margin: 0; font-size: 0.8rem; color: #8b949e; line-height: 1.4; }
-
-        .footer { font-size: 12px; color: #484f58; text-align: center; margin: 50px 0; border-top: 1px solid var(--border); padding-top: 20px; }
-    </style>
+    <title>Alpha Leak Analyzer | Portfolio Diagnostic</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 <body>
 
@@ -127,7 +42,7 @@
                     <span id="toggleLabel" style="font-size:0.9rem; font-weight:700; color:#8b949e; display:block;">Inflation Adjusted</span>
                     <span style="font-size:0.7rem; color:#8b949e;">Show Real Purchasing Power (6%)</span>
                 </div>
-                <input type="checkbox" id="adjInflation" onchange="sync()">
+                <input type="checkbox" id="adjInflation">
             </div>
         </aside>
 
@@ -162,146 +77,17 @@
                 <h5>The Inflation Paradox</h5>
                 <p>When "Inflation Adjusted" is ON, the numerical leak shrinks because future money is discounted. However, the time delay increases because your "Real" recovery rate is slower.</p>
             </div>
-            <div class="info-bit">
-                <h5>Stochastic Modeling</h5>
-                <p>This tool uses Geometric Brownian Motion (GBM) to simulate market volatility, ensuring performance paths mimic real-world market movements.</p>
-            </div>
         </div>
     </section>
 
     <div class="footer">
-        PROJECT ALPHA LEAK ANALYZER | Made with &#10084;&#65039; by MEANDERTHALMAN | AGPL v3.0 OPEN SOURCE
+        PROJECT ALPHA | ENGINE V6.5 | Made with &#10084;&#65039; by 
+        <a href="https://github.com/meanderthalman" style="color: inherit; text-decoration: none; font-weight: bold;">Meanderthalman</a> | 
+        AGPL v3.0 OPEN SOURCE
     </div>
 </div>
 
-<script>
-    let chart;
-    const currentYear = 2026;
-    const inflationRate = 0.06;
+<script src="script.js" defer></script>
 
-    function format(n) {
-        let absN = Math.abs(n);
-        let res = "";
-        if (absN >= 10000000) res = (absN/10000000).toFixed(2) + ' Cr';
-        else if (absN >= 100000) res = (absN/100000).toFixed(2) + ' L';
-        else res = (absN/1000).toFixed(1) + ' K';
-        return n < 0 ? "-" + res : res;
-    }
-
-    function toggleInflation() {
-        const cb = document.getElementById('adjInflation');
-        const wrap = document.getElementById('toggleWrap');
-        const label = document.getElementById('toggleLabel');
-        
-        cb.checked = !cb.checked;
-        
-        if(cb.checked) {
-            wrap.classList.add('active');
-            label.style.color = 'var(--gold)';
-        } else {
-            wrap.classList.remove('active');
-            label.style.color = '#8b949e';
-        }
-        sync();
-    }
-
-    function sync() {
-        const p = parseFloat(document.getElementById('principal').value) || 0;
-        const cv = parseFloat(document.getElementById('currentValue').value) || 0;
-        const y = parseInt(document.getElementById('years').value);
-        
-        document.getElementById('pHint').innerText = '₹ ' + format(p);
-        document.getElementById('cvHint').innerText = '₹ ' + format(cv);
-        document.getElementById('yVal').innerText = y;
-
-        calculate(p, cv, y);
-    }
-
-    function calculate(P, CV, Y) {
-        const adj = document.getElementById('adjInflation').checked;
-        const startYear = currentYear - Y;
-        const datasets = [];
-        let maxLeak = 0;
-
-        const userCAGR = Math.pow(CV/P, 1/Y) - 1;
-        const userData = genPath(P, Y, userCAGR, 0.02, startYear, adj);
-        datasets.push({
-            label: 'Your Portfolio', data: userData,
-            borderColor: '#f85149', borderWidth: 4, pointRadius: 0, tension: 0.3
-        });
-
-        document.querySelectorAll('.chip.active').forEach(chip => {
-            const r = parseFloat(chip.dataset.rate);
-            const path = genPath(P, Y, r, 0.12, startYear, adj);
-            const finalBenchmark = path[path.length - 1].y;
-            const finalUser = userData[userData.length - 1].y;
-            maxLeak = Math.max(maxLeak, finalBenchmark - finalUser);
-            
-            datasets.push({
-                label: chip.dataset.name, data: path, borderColor: chip.dataset.color, 
-                borderWidth: 2, borderDash: [6, 4], pointRadius: 0, tension: 0.4
-            });
-        });
-
-        document.getElementById('leakVal').innerText = '₹ ' + format(maxLeak);
-        const niftyRate = adj ? (0.13 - inflationRate) : 0.13;
-        const delay = maxLeak > 0 ? Math.log((CV + maxLeak)/CV) / Math.log(1 + niftyRate) : 0;
-        document.getElementById('delayVal').innerText = `${Math.floor(delay)}y ${Math.round((delay%1)*12)}m`;
-
-        const leakBadge = document.getElementById('gradeLeak');
-        const timeBadge = document.getElementById('gradeTime');
-        
-        if (maxLeak <= 0) {
-            leakBadge.innerText = "Alpha Leader"; leakBadge.style.background = "var(--green)";
-            timeBadge.innerText = "No Delay"; timeBadge.style.background = "var(--green)";
-            leakBadge.style.color = "white"; timeBadge.style.color = "white";
-        } else if (delay > 3) {
-            leakBadge.innerText = "Severe Leak"; leakBadge.style.background = "var(--red)";
-            timeBadge.innerText = "Critical Delay"; timeBadge.style.background = "var(--red)";
-            leakBadge.style.color = "white"; timeBadge.style.color = "white";
-        } else {
-            leakBadge.innerText = "Moderate Leak"; leakBadge.style.background = "var(--gold)"; 
-            timeBadge.innerText = "Recoverable"; timeBadge.style.background = "var(--gold)";
-            leakBadge.style.color = "black"; timeBadge.style.color = "black";
-        }
-
-        renderChart(datasets);
-    }
-
-    function genPath(p, years, r, vol, start, adj) {
-        let pts = [];
-        let curr = p;
-        for(let i=0; i <= years * 12; i++) {
-            let val = curr;
-            if(adj) val = curr / Math.pow(1 + inflationRate, i/12);
-            pts.push({ x: start + (i/12), y: Math.round(val) });
-            curr *= (1 + (r/12) + (vol/Math.sqrt(12) * (Math.random()*2-1)));
-        }
-        return pts;
-    }
-
-    function renderChart(ds) {
-        const ctx = document.getElementById('chartCanvas').getContext('2d');
-        if(chart) chart.destroy();
-        chart = new Chart(ctx, {
-            type: 'line',
-            data: { datasets: ds },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: {
-                    x: { type: 'linear', ticks: { color:'#8b949e', font:{size:10} }, grid: { color: 'rgba(48,54,61,0.2)' } },
-                    y: { ticks: { color:'#8b949e', font:{size:10}, callback: v => '₹' + format(v) }, grid: { color: 'rgba(48,54,61,0.2)' } }
-                },
-                plugins: {
-                    legend: { position: 'bottom', labels: { color: '#8b949e', boxWidth: 10, font: {size: 11} } },
-                    tooltip: { mode: 'index', intersect: false }
-                }
-            }
-        });
-    }
-
-    document.querySelectorAll('.chip').forEach(c => c.onclick = () => { c.classList.toggle('active'); sync(); });
-    window.onload = sync;
-</script>
 </body>
 </html>
