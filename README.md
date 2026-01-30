@@ -1,6 +1,6 @@
-# 📈 Alpha Leak Pro: Portfolio Diagnostic Engine
+# 📈 Alpha Leak Analyzer: Portfolio Diagnostic Engine
 
-**Alpha Leak Pro** is a high-performance portfolio diagnostic tool. It moves beyond simple "profit/loss" statements to visualize **Opportunity Cost**—showing you exactly how much wealth and time you are losing to market underperformance.
+**Alpha Leak Analyzer** is a high-performance portfolio diagnostic tool. It moves beyond simple "profit/loss" statements to visualize **Opportunity Cost**—showing you exactly how much wealth and time you are losing to market underperformance.
 
 🚀 **Live Tool:** [https://meanderthalman.github.io/alpha-leak-analyzer/](https://meanderthalman.github.io/alpha-leak-analyzer/)
 
