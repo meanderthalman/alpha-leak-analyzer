@@ -6,6 +6,15 @@
 
 ---
 
+## 🛠 Technical Methodology
+
+The **Alpha Leak Analyzer** is built on three core pillars of financial engineering:
+
+1. **Gaussian Volatility Engine:** Instead of linear growth models, the engine utilizes a **Box-Muller Transform** to simulate normal distribution noise ($Z = \sqrt{-2 \ln U_1} \cos(2\pi U_2)$). This provides a "Random Walk" pathing that accurately reflects market behavior.
+2. **Logarithmic Time-Delay Tax:** Recovery time is calculated using logarithmic return attribution ($t = \frac{\ln(V_{target}) - \ln(V_{current})}{r_{recovery}}$). This offers a more precise measurement of the "Force of Interest" required to bridge the alpha gap.
+3. **Inflation Paradox Toggle:** A real-rate discount factor is applied to all future cash flows to demonstrate how inflation artificially masks underperformance while simultaneously increasing the time required for capital recovery.
+
+
 ## 🛠️ Core Diagnostic Features
 
 * **Alpha Leak Visualization:** Real-time comparison of your portfolio CAGR against benchmarks like Nifty 50, Midcap 150, and Gold.
