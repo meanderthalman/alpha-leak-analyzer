@@ -4,9 +4,8 @@ const inflationRate = 0.06;
 
 /**
  * BOX-MULLER TRANSFORM
- * Generates Gaussian (Normal) distribution noise.
- * This makes the "wiggles" in the graph look like real market volatility
- * rather than artificial waves.
+ * Generates Gaussian (Normal) distribution noise for more realistic 
+ * market volatility than simple sine waves.
  */
 function getGaussianNoise() {
     let u = 0, v = 0;
@@ -50,15 +49,15 @@ function calculate(P, CV, Y) {
     const startYear = currentYear - Y;
     const datasets = [];
     let maxLeak = 0;
-    let highestRate = 0.13; // Default floor
+    let highestRate = 0.13; // Default benchmark floor
 
-    // 1. Determine the "Recovery Bar" based on user-selected benchmarks
+    // 1. Identify active benchmarks and set the recovery target rate
     const activeChips = document.querySelectorAll('.chip.active');
     activeChips.forEach(chip => {
         highestRate = Math.max(highestRate, parseFloat(chip.dataset.rate));
     });
 
-    // 2. User Asset Path (Lower volatility for the "known" path)
+    // 2. User Portfolio Path
     const userCAGR = Math.pow(CV/P, 1/Y) - 1;
     const userData = genPath(P, Y, userCAGR, 0.04, startYear, adj);
     datasets.push({
@@ -66,11 +65,10 @@ function calculate(P, CV, Y) {
         borderColor: '#f85149', borderWidth: 4, pointRadius: 0, tension: 0.3
     });
 
-    // 3. Benchmark Paths
+    // 3. Benchmark Paths (Geometric Brownian Motion)
     activeChips.forEach(chip => {
         const r = parseFloat(chip.dataset.rate);
-        // Midcaps are more volatile than Nifty/Gold
-        const volatility = r > 0.18 ? 0.18 : 0.12; 
+        const volatility = r > 0.18 ? 0.18 : 0.12; // Higher risk for Midcaps
         
         const path = genPath(P, Y, r, volatility, startYear, adj);
         const finalBenchmark = path[path.length - 1].y;
@@ -87,24 +85,36 @@ function calculate(P, CV, Y) {
     // 4. Update UI Stats
     document.getElementById('leakVal').innerText = '₹ ' + format(maxLeak);
     
-    // LOGARITHMIC TIME-DELAY CALCULATION
-    // Math.log(Target/Current) / Math.log(1 + rate)
+    // LOGARITHMIC TIME-DELAY TAX
     const recoveryRate = adj ? (highestRate - inflationRate) : highestRate;
     let delay = 0;
     if (maxLeak > 0 && CV > 0) {
+        // Precise Logarithmic catch-up formula
         delay = Math.log((CV + maxLeak) / CV) / Math.log(1 + recoveryRate);
     }
     
     document.getElementById('delayVal').innerText = `${Math.floor(delay)}y ${Math.round((delay % 1) * 12)}m`;
 
-    // 5. Dynamic Grading
+    // 5. Dynamic Grading (Fixes the "Checking..." issue)
     const leakBadge = document.getElementById('gradeLeak');
+    const timeBadge = document.getElementById('gradeTime');
+
+    // Wealth Leak Grade
     if (maxLeak <= 0) { 
-        leakBadge.innerText = "Alpha Leader"; leakBadge.style.background = "#3fb950"; 
+        leakBadge.innerText = "Alpha Leader"; leakBadge.style.background = "#3fb950"; leakBadge.style.color = "white";
     } else if (delay > 3.5) { 
-        leakBadge.innerText = "Severe Leak"; leakBadge.style.background = "#f85149"; 
+        leakBadge.innerText = "Severe Leak"; leakBadge.style.background = "#f85149"; leakBadge.style.color = "white";
     } else { 
         leakBadge.innerText = "Moderate Leak"; leakBadge.style.background = "#ffd700"; leakBadge.style.color = "black";
+    }
+
+    // Time Delay Grade
+    if (maxLeak <= 0) {
+        timeBadge.innerText = "Timeline Intact"; timeBadge.style.background = "#3fb950"; timeBadge.style.color = "white";
+    } else if (delay > 5) {
+        timeBadge.innerText = "Heavy Erosion"; timeBadge.style.background = "#f85149"; timeBadge.style.color = "white";
+    } else {
+        timeBadge.innerText = "Drifting Date"; timeBadge.style.background = "#ffd700"; timeBadge.style.color = "black";
     }
 
     renderChart(datasets);
@@ -113,14 +123,12 @@ function calculate(P, CV, Y) {
 function genPath(p, years, r, vol, start, adj) {
     let pts = [];
     let curr = p;
-    // We use a fixed seed-like approach for the loop to keep the graph 
-    // somewhat consistent during toggles while still feeling "organic"
     for(let i=0; i <= years * 12; i++) {
         let val = curr;
         if(adj) val = curr / Math.pow(1 + inflationRate, i/12);
         pts.push({ x: start + (i/12), y: Math.round(val) });
         
-        // Applying Gaussian Volatility to the growth step
+        // Applying Gaussian Volatility to simulate Geometric Brownian Motion
         let noise = getGaussianNoise();
         let periodicReturn = (r / 12) + (vol * Math.sqrt(1/12) * noise);
         curr *= (1 + periodicReturn);
