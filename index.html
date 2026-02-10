@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Alpha Leak Analyzer | Portfolio Diagnostic</title>
+    
+    <title>Alpha Leak Analyzer | Portfolio Diagnostic Engine</title>
+    <meta name="title" content="Alpha Leak Analyzer | Portfolio Diagnostic Engine">
+    <meta name="description" content="Identify wealth erosion and calculate your Time-Delay Tax. An MRI for your portfolio performance against Indian benchmarks.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meanderthalman.github.io/alpha-leak-analyzer/">
+    <meta property="og:title" content="Alpha Leak Analyzer | Portfolio Diagnostic">
+    <meta property="og:description" content="Are you an Alpha Leader or an Alpha Leaker? Run the diagnostic to see the years you're losing to wealth erosion.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/meanderthalman/alpha-leak-analyzer/main/banner.jpg">
+
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
@@ -18,43 +28,43 @@
     <div class="main-grid">
         <aside class="sidebar glass">
             <h3>Diagnostic Inputs</h3>
-            <label>Initial Investment</label>
+            
+            <label for="principal">Inception Capital (Principal)</label>
             <input type="number" id="principal" value="100000" oninput="sync()">
             <span id="pHint" class="unit-hint"></span>
 
-            <label>Current Portfolio Value</label>
+            <label for="currentValue">Mark-to-Market Value</label>
             <input type="number" id="currentValue" value="145000" oninput="sync()">
             <span id="cvHint" class="unit-hint"></span>
 
-            <label>Time Horizon: <span id="yVal" style="color:var(--accent)">5</span> Years</label>
+            <label>Holding Period: <span id="yVal" style="color:var(--accent)">5</span> Years</label>
             <input type="range" id="years" min="1" max="25" value="5" oninput="sync()">
 
             <h3>Opportunity Benchmarks</h3>
             <div class="chip-container">
-                <div class="chip active" data-rate="0.13" data-name="Nifty 50" data-color="#ffd700">Nifty 50 (13%)</div>
-                <div class="chip active" data-rate="0.21" data-name="Midcap 150" data-color="#00FF7F">Midcap 150 (21%)</div>
-                <div class="chip" data-rate="0.16" data-name="Aggressive Hybrid" data-color="#FF00FF">Agg. Hybrid (16%)</div>
-                <div class="chip" data-rate="0.14" data-name="Gold" data-color="#FFA500">Gold (14%)</div>
+                <div class="chip active" data-rate="0.13" data-name="Nifty 50" data-color="#58a6ff">Nifty 50 (13%)</div>
+                <div class="chip" data-rate="0.18" data-name="Midcap 150" data-color="#ffd700">Midcap 150 (18%)</div>
+                <div class="chip" data-rate="0.10" data-name="Gold" data-color="#3fb950">Gold (10%)</div>
             </div>
 
             <div id="toggleWrap" class="toggle-container" onclick="toggleInflation()">
-                <div>
-                    <span id="toggleLabel" style="font-size:0.9rem; font-weight:700; color:#8b949e; display:block;">Inflation Adjusted</span>
-                    <span style="font-size:0.7rem; color:#8b949e;">Show Real Purchasing Power (6%)</span>
+                <div style="flex:1">
+                    <div style="font-weight:bold; color:var(--gold); font-size:0.9rem;">Inflation Paradox</div>
+                    <div style="font-size:0.7rem; opacity:0.8;">Adjust for Real Purchasing Power</div>
                 </div>
                 <input type="checkbox" id="adjInflation">
             </div>
         </aside>
 
-        <main class="display glass">
-            <div class="stats-strip">
-                <div class="stat-box" style="border-top: 3px solid var(--red);">
-                    <span class="stat-label">Wealth Leak</span>
-                    <span id="leakVal" class="stat-val" style="color:var(--red)">₹0</span>
+        <main class="content glass">
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">Alpha Leak (Wealth)</span>
+                    <span id="leakVal" class="stat-val" style="color:var(--red)">₹ 0</span>
                     <div id="gradeLeak" class="grade-badge">Checking...</div>
                 </div>
-                <div class="stat-box" style="border-top: 3px solid var(--gold);">
-                    <span class="stat-label">Time Delay Tax</span>
+                <div class="stat-box">
+                    <span class="stat-label">Time-Delay Tax</span>
                     <span id="delayVal" class="stat-val" style="color:var(--gold)">0y 0m</span>
                     <div id="gradeTime" class="grade-badge">Checking...</div>
                 </div>
@@ -71,17 +81,17 @@
         <div class="explainer-content">
             <div class="info-bit">
                 <h5>The Time-Delay Tax</h5>
-                <p>Calculates exactly how many years you must "work extra" or stay invested in a benchmark to recover the capital lost to underperformance.</p>
+                <p>Calculates exactly how many years of growth you have unknowingly sacrificed. This is the "catch-up" time required to reach market parity using your current asset's velocity.</p>
             </div>
             <div class="info-bit">
                 <h5>The Inflation Paradox</h5>
-                <p>When "Inflation Adjusted" is ON, the numerical leak shrinks because future money is discounted. However, the time delay increases because your "Real" recovery rate is slower.</p>
+                <p>Inflation masks underperformance. While the numerical "Leak" might look smaller when adjusted for inflation, the <strong>Time-Delay</strong> actually explodes because your real-world recovery engine is significantly slower.</p>
             </div>
         </div>
     </section>
 
     <div class="footer">
-        PROJECT ALPHA LEAK ANALYZER | Made with &#10084;&#65039; by 
+        PROJECT ALPHA | ENGINE V1.1 | Developed by 
         <a href="https://github.com/meanderthalman" style="color: inherit; text-decoration: none; font-weight: bold;">Meanderthalman</a> | 
         AGPL v3.0 OPEN SOURCE
     </div>
